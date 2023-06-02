@@ -17,4 +17,6 @@ setup(
             'airtable_view_fetcher=airtable_view_fetcher.fetch_airtable_data:main'
         ]
     },
+    long_description_content_type='text/markdown',
+    long_description='Tool to scrape data from an Airtable shared view'
 )
