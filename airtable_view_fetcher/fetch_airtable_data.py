@@ -6,7 +6,7 @@ import pytz
 import requests
 
 
-def fetch_airtable_data(url):
+def fetch_airtable_data(url, output_file=None):
     # Headers
     headers = {
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/113.0"
@@ -39,7 +39,17 @@ def fetch_airtable_data(url):
             headers_dict = {**json.loads(headers_dict),
                             'x-time-zone': datetime.now(pytz.timezone('UTC')).strftime('%Z')}
             final_resp = session.get(f"https://airtable.com{decoded_url}", headers=headers_dict)
-            print(final_resp.text)
+            data = final_resp.text
+
+            if output_file:
+                with open(output_file, 'w') as f:
+                    parsed_data = json.loads(data)
+                    json.dump(parsed_data, f, indent=2)
+                print(f"Data written to file: {output_file}")
+            else:
+                parsed_data = json.loads(data)
+                formatted_data = json.dumps(parsed_data, indent=2)
+                print(formatted_data)
         else:
             print("Headers variable not found.")
 
@@ -52,7 +62,16 @@ def main():
         print("Please provide the shared view URL as a command-line argument.")
     else:
         shared_view_url = sys.argv[1]
-        fetch_airtable_data(shared_view_url)
+        output_file = None
+
+        if len(sys.argv) > 2 and sys.argv[2] == "-o":
+            if len(sys.argv) > 3:
+                output_file = sys.argv[3]
+            else:
+                print("Please provide the output file name after the -o option.")
+                return
+
+        fetch_airtable_data(shared_view_url, output_file)
 
 
 if __name__ == '__main__':
