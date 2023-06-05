@@ -16,9 +16,15 @@ jobs:
       - name: Update Version in setup.py
         run: |
           sed -i "s/version='.*'/version='${{ github.ref_name }}'/" setup.py
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git commit -am "Update version in setup.py"
+      
+      - name: Commit and Push Changes
+        uses: actions/github-script@v4
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            git add setup.py
+            git commit -m "Update version in setup.py"
+            git push
 
       - name: Set up Python
         uses: actions/setup-python@v2
