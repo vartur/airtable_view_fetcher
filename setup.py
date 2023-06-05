@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='airtable_view_fetcher',
-    version='0.2.0',
+    version='0.4.0',
     description='Tool to scrape data from an Airtable shared view',
     url='https://github.com/vartur/airtable_view_fetcher',
     author='Vincent Artur',
