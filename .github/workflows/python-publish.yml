@@ -19,7 +19,7 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -am "Update version in setup.py"
-          git push
+          git push HEAD:main
 
       - name: Set up Python
         uses: actions/setup-python@v2
