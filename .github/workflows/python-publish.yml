@@ -23,6 +23,10 @@ jobs:
 
       - name: Build Package
         run: python -m build
+        
+      - name: Update Version in setup.py
+        run: |
+          sed -i "s/version='.*'/version='${{ github.ref_name }}'/" setup.py
 
       - name: Publish to PyPI
         env:
